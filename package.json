@@ -10,6 +10,10 @@
     "test": "vitest"
   },
   "dependencies": {
+    "eslint": "^8.22.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-vue": "^9.3.0",
+    "prettier": "^2.7.1",
     "vue": "^3.2.37",
     "vue-router": "^4.1.3"
   },
