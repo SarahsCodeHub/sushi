@@ -1,6 +1,6 @@
 import { mount } from "@vue/test-utils";
 import { describe, expect, test } from "vitest";
-import StartNewRestaurant from "../src/components/StartNewRestaurant.vue";
+import StartNewRestaurant from "../src/views/StartNewRestaurant.vue";
 
 describe("StartNewRestaurant", () => {
   test("StartNewRestaurant default values set and useful", () => {

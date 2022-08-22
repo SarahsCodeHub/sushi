@@ -13,17 +13,28 @@
 </template>
 
 <script>
+import { Seat, SushiTable } from "../functions/sushi-table";
+
 export default {
   props: {
     seatsInTotal: {
       type: Number,
       required: true,
+      default: 10,
     },
     name: {
       type: String,
       required: false,
       default: "Sushi Bar F+P",
     },
+  },
+  data() {
+    return {
+      sushiTable: new SushiTable(this.seatsInTotal),
+    };
+  },
+  mounted() {
+    console.log(this.sushiTable.head);
   },
 };
 </script>
