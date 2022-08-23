@@ -30,11 +30,13 @@ export default {
   },
   data() {
     return {
+      seatsInTotal: this.$route.params.seatsInTotal,
+      name: this.$route.params.name,
       sushiTable: new SushiTable(this.seatsInTotal),
     };
   },
   mounted() {
-    console.log(this.sushiTable.head);
+    console.log(this.$route.params);
   },
 };
 </script>
