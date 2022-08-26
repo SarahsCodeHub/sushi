@@ -5,40 +5,93 @@
     </h1>
     <div style="display: flex">
       <div style="width: 60%">
-        Verteilung der <span>{{ seatsInTotal }} Sitzplätze</span>
+        <h2>
+          Verteilung der <span>{{ seatsInTotal }} Sitzplätze</span>
+        </h2>
+        <div></div>
       </div>
-      <div style="width: 40%">Eingabe Gäste</div>
+      <div style="width: 40%">
+        <div>
+          <h2>Eingabe Gäste</h2>
+          <label for="group-length">Anzahl der Gäste</label>
+          <input type="number" name="group-length" v-model="groupLength" />
+          <button @click="addNewGroup(groupLength, 0)">kommt herein</button>
+        </div>
+        <div>
+          <h2>Eingabe Gäste</h2>
+          <button
+            v-for="groupColorHash in presentGroups"
+            :key="groupColorHash"
+            @click="removeGroup(groupColorHash)"
+            class="button"
+            :style="{ backgroundColor: '#' + groupColorHash }"
+          >
+            Gruppe #{{ groupColorHash }} geht
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { Seat, SushiTable } from "../functions/sushi-table";
+import { SushiTable } from "../functions/sushi-table";
 
 export default {
-  props: {
-    seatsInTotal: {
-      type: Number,
-      required: true,
-      default: 10,
-    },
-    name: {
-      type: String,
-      required: false,
-      default: "Sushi Bar F+P",
-    },
-  },
+  props: {},
   data() {
     return {
-      seatsInTotal: this.$route.params.seatsInTotal,
-      name: this.$route.params.name,
-      sushiTable: new SushiTable(this.seatsInTotal),
+      sushiTable: new SushiTable(10),
+      seatContribution: {},
+      presentGroups: [],
+      gaps: [],
+      groupLength: 0,
     };
   },
-  mounted() {
-    console.log(this.$route.params);
+  computed: {
+    totalGroupsCount() {
+      return Object.keys(this.seatContribution).length;
+    },
+    name() {
+      return this.$route.params.name;
+    },
+    seatsInTotal() {
+      return this.$route.params.seatsInTotal;
+    },
   },
+  methods: {
+    gapsCount() {
+      return this.gaps.length;
+    },
+    addNewGroup(length, firstSeat) {
+      const groupColorHash = (Math.random().toString(16) + "000000").substring(
+        2,
+        8
+      );
+      for (let i = 0; i < length; i++) {
+        this.sushiTable.addAt(firstSeat + i, groupColorHash);
+      }
+      this.presentGroups.push(groupColorHash);
+    },
+    removeGroup(hash) {
+      console.log(hash);
+      for (let i = 0; i < this.sushiTable.length; i++) {
+        this.sushiTable.seats[i] === hash ? this.sushiTable.removeAt(i) : null;
+      }
+      this.presentGroups.filter((groupHash) => groupHash !== hash);
+    },
+  },
+  mounted() {},
 };
 </script>
 
-<style></style>
+<style>
+.button {
+  padding: 7px 10px 8px;
+  margin: 6px 10px;
+  color: white;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+}
+</style>
