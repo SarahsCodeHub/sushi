@@ -4,23 +4,67 @@
       Willkommen im Restaurant &ldquo;{{ name }}&rdquo;
     </h1>
     <div style="display: flex">
-      <div style="width: 60%">
+      <div style="width: 30%">
+        <h2>Status</h2>
+        <div v-if="sushiTable.isCompletelyFree">
+          Das Restaurant ist völlig leer.
+        </div>
+        <div v-else-if="sushiTable.isCompletelyOccupied">
+          Das Restaurant ist komplett besetzt.
+        </div>
+        <div v-else>
+          Es gibt noch freie Plätze
+          <ul>
+            <li v-for="gap in sushiTable.gaps">
+              Platz {{ gap[0] + 1 }} bis einschließlich Platz
+              {{ (gap[0] + gap[1]) % sushiTable.length }}
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div style="width: 30%">
         <h2>
-          Verteilung der <span>{{ seatsInTotal }} Sitzplätze</span>
+          Verteilung der <span>{{ 10 }} Sitzplätze</span>
         </h2>
-        <div></div>
+        <div>
+          <div
+            v-for="seat in sushiTable.seats"
+            :style="{ color: '#' + seat || 'grey' }"
+          >
+            &#9641;
+            {{ seat }}
+          </div>
+        </div>
       </div>
       <div style="width: 40%">
+        <div>{{ sushiTable.seats.length }}</div>
+        <button @click="sushiTable.add()">count plus 1</button>
+        <button @click="sushiTable.addAt(3, '#hfhfhf')">
+          An Stelle 3 "sayhi" einfügen
+        </button>
+        <button @click="removeGroup('#hfhfhf')">
+          An Stelle 3 "sayhi" entfernen
+        </button>
         <div>
           <h2>Eingabe Gäste</h2>
           <label for="group-length">Anzahl der Gäste</label>
-          <input type="number" name="group-length" v-model="groupLength" />
-          <button @click="addNewGroup(groupLength, 0)">kommt herein</button>
+          <input
+            type="number"
+            min="1"
+            name="group-length"
+            v-model="groupLength"
+          />
+          <button
+            @click="addNewGroup(groupLength, 0)"
+            :disabled="groupLength <= 0"
+          >
+            kommt herein
+          </button>
         </div>
         <div>
           <h2>Eingabe Gäste</h2>
           <button
-            v-for="groupColorHash in presentGroups"
+            v-for="groupColorHash in sushiTable.presentGroups"
             :key="groupColorHash"
             @click="removeGroup(groupColorHash)"
             class="button"
@@ -43,7 +87,6 @@ export default {
     return {
       sushiTable: useSushiTable(10),
       seatContribution: {},
-      presentGroups: [],
       gaps: [],
       groupLength: null,
     };
@@ -68,15 +111,11 @@ export default {
       for (let i = 0; i < length; i++) {
         this.sushiTable.addAt(firstSeat + i, groupColorHash);
       }
-      this.sushiTable.updateGaps();
-      this.presentGroups.push(groupColorHash);
     },
     removeGroup(hash) {
       for (let i = 0; i < this.sushiTable.length; i++) {
         this.sushiTable.seats[i] === hash ? this.sushiTable.removeAt(i) : null;
       }
-      this.sushiTable.updateGaps();
-      this.presentGroups = this.presentGroups.filter((item) => item !== hash);
     },
   },
   mounted() {},

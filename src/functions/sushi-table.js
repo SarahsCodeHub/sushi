@@ -5,14 +5,23 @@ export default function (seatsInTotal) {
   for (let i = 0; i < length; i++) {
     seats.value.push(false);
   }
-  const gaps = ref([]);
+  seats.value = [
+    false,
+    "00ff00",
+    "00ff00",
+    "00ff00",
+    false,
+    false,
+    "0000ff",
+    "0000ff",
+    "ff00ff",
+    false,
+  ];
   const gapsCount = ref(0);
 
-  const add = () => {
-    const _seats = [...seats.value];
-    _seats.push("whiwhihi");
-    seats.value = _seats;
-  };
+  const presentGroups = computed(() => {
+    return new Set(seats.value.filter((value) => !!value));
+  });
 
   const isCompletelyOccupied = computed(() => {
     return seats.value.filter((value) => !!value).length === length;
@@ -38,15 +47,15 @@ export default function (seatsInTotal) {
     seats.value = _seats;
   };
 
-  const updateGaps = () => {
+  const gaps = computed(() => {
     let currentLength = 0;
     let firstFreeIndex = null;
-    const newGaps = [];
+    const _gaps = [];
 
     seats.value.forEach((occupied, index) => {
       // falls firstIndex gesetzt ist und der aktuelle Sitz besetzt ist
       if (firstFreeIndex != null && occupied) {
-        newGaps.push([firstFreeIndex - currentLength + 1, currentLength]);
+        _gaps.push([firstFreeIndex - currentLength + 1, currentLength]);
         currentLength = 0;
         firstFreeIndex = null;
       }
@@ -56,27 +65,25 @@ export default function (seatsInTotal) {
         currentLength++;
         // falls der letzte Platz leer ist
         if (index == length - 1) {
-          newGaps.push([firstFreeIndex - currentLength + 1, currentLength]);
+          _gaps.push([firstFreeIndex - currentLength + 1, currentLength]);
         }
       }
     });
-    gapsCount.value = newGaps.length;
 
-    if (newGaps.length >= 2) {
-      const firstSeatFree = newGaps[0][0] == 0;
+    if (_gaps.length >= 2) {
+      const firstSeatFree = _gaps[0][0] == 0;
       const isLastSeatFree =
-        newGaps[newGaps.length - 1][0] + newGaps[newGaps.length - 1][1] ==
-        length;
+        _gaps[_gaps.length - 1][0] + _gaps[_gaps.length - 1][1] == length;
 
       if (firstSeatFree && isLastSeatFree) {
-        const lastGap = newGaps.pop();
-        const firstGap = newGaps.shift();
-        newGaps.push([lastGap[0], lastGap[1] + firstGap[1]]);
+        const lastGap = _gaps.pop();
+        const firstGap = _gaps.shift();
+        _gaps.push([lastGap[0], lastGap[1] + firstGap[1]]);
       }
     }
 
-    gaps.value = newGaps;
-  };
+    return _gaps;
+  });
 
   return {
     length,
@@ -87,6 +94,6 @@ export default function (seatsInTotal) {
     isCompletelyFree,
     addAt,
     removeAt,
-    updateGaps,
+    presentGroups,
   };
 }
