@@ -49,10 +49,8 @@ export default function (seatsInTotal) {
 
   const addNewGroup = (length, firstSeat) => {
     const _seats = [...seats.value];
-    const groupColorHash = (Math.random().toString(16) + "000000").substring(
-      2,
-      8
-    );
+    const groupColorHash =
+      "#" + (Math.random().toString(16) + "000000").substring(2, 8);
     for (let i = 0; i < length; i++) {
       _seats[firstSeat + i] = groupColorHash;
     }

@@ -29,7 +29,10 @@
           Verteilung der <span>{{ 10 }} Sitzplätze</span>
         </h2>
         <div>
-          <div v-for="seat in sushiTable.seats" :style="{ color: '#' + seat }">
+          <div
+            v-for="seat in sushiTable.seats"
+            :style="{ color: seat || '#000' }"
+          >
             &#9641;
             {{ seat }}
           </div>
@@ -59,9 +62,9 @@
             :key="groupColorHash"
             @click="sushiTable.removeGroup(groupColorHash)"
             class="button"
-            :style="{ backgroundColor: '#' + groupColorHash }"
+            :style="{ backgroundColor: groupColorHash }"
           >
-            Gruppe #{{ groupColorHash }} geht
+            Gruppe {{ groupColorHash }} geht
           </button>
         </div>
       </div>
