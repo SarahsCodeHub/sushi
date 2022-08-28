@@ -35,17 +35,17 @@
 </template>
 
 <script>
-import { SushiTable } from "../functions/sushi-table";
+import useSushiTable from "../functions/sushi-table";
 
 export default {
   props: {},
   data() {
     return {
-      sushiTable: new SushiTable(10),
+      sushiTable: useSushiTable(10),
       seatContribution: {},
       presentGroups: [],
       gaps: [],
-      groupLength: 0,
+      groupLength: null,
     };
   },
   computed: {
@@ -76,7 +76,7 @@ export default {
         this.sushiTable.seats[i] === hash ? this.sushiTable.removeAt(i) : null;
       }
       this.sushiTable.updateGaps();
-      this.presentGroups.filter((groupHash) => groupHash !== hash);
+      this.presentGroups = this.presentGroups.filter((item) => item !== hash);
     },
   },
   mounted() {},

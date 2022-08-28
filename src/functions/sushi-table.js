@@ -1,74 +1,92 @@
-export class SushiTable {
-  constructor(seatsInTotal) {
-    this.length = seatsInTotal;
-    this.seats = [];
-    this.occupiedSeats = 0;
-    for (let i = 0; i < this.length; i++) {
-      this.seats.push(false);
-    }
-    this.gaps = [];
-    this.gapsCount = 0;
+import { ref, reactive, computed } from "vue";
+export default function (seatsInTotal) {
+  const length = seatsInTotal;
+  const seats = ref([]);
+  const occupiedSeats = ref(0);
+  for (let i = 0; i < length; i++) {
+    seats.value.push("red");
   }
+  const gaps = ref([]);
+  const gapsCount = ref(0);
 
-  isCompletelyOccupied = () => {
-    return occupiedSeats === this.length;
+  const add = () => {
+    const _seats = [...seats.value];
+    _seats.push("whiwhihi");
+    seats.value = _seats;
   };
 
-  isCompletelyFree = () => {
-    return occupiedSeats === 0;
+  const isCompletelyOccupied = () => {
+    return occupiedSeats.value === length;
   };
 
-  occupiedAt = (index) => {
-    return this.seats[index];
+  const isCompletelyFree = () => {
+    return occupiedSeats.value === 0;
   };
 
-  addAt = (index, value) => {
-    this.occupiedSeats++;
-    this.seats[index] = value;
+  const occupiedAt = (index) => {
+    return !!seats.value[index];
   };
 
-  removeAt = (index) => {
-    this.occupiedSeats--;
-    this.seats[index] = false;
+  const addAt = (index, value) => {
+    occupiedSeats.value++;
+    const _seats = [...seats.value];
+    _seats[index] = value;
+    seats.value = _seats;
   };
 
-  updateGaps = () => {
+  const removeAt = (index) => {
+    occupiedSeats.value--;
+    const _seats = [...seats.value];
+    _seats[index] = false;
+    seats.value = _seats;
+  };
+
+  const updateGaps = () => {
     let currentLength = 0;
     let firstFreeIndex = null;
     const newGaps = [];
-    
-    this.seats.forEach((occupied, index) => {
+
+    seats.value.forEach((occupied, index) => {
       // falls firstIndex gesetzt ist und der aktuelle Sitz besetzt ist
-      if(firstFreeIndex != null && occupied) {
-        newGaps.push([firstFreeIndex - currentLength + 1, currentLength])
+      if (firstFreeIndex != null && occupied) {
+        newGaps.push([firstFreeIndex - currentLength + 1, currentLength]);
         currentLength = 0;
         firstFreeIndex = null;
       }
       // falls der Platz leer ist
-      if(!occupied) {
+      if (!occupied) {
         firstFreeIndex = index;
         currentLength++;
-        // falls der letzte Platz leer ist  
-        if(index == this.length - 1 ) {         
-          newGaps.push([firstFreeIndex - currentLength + 1, currentLength])
+        // falls der letzte Platz leer ist
+        if (index == length - 1) {
+          newGaps.push([firstFreeIndex - currentLength + 1, currentLength]);
         }
       }
     });
-    this.gapsCount = newGaps.length;
+    gapsCount.value = newGaps.length;
 
     const firstSeatFree = newGaps[0][0] == 0;
-    const isLastSeatFree = newGaps[newGaps.length - 1][0] + newGaps[newGaps.length - 1][1] == this.length;
-    
-    if(firstSeatFree && isLastSeatFree) {
+    const isLastSeatFree =
+      newGaps[newGaps.length - 1][0] + newGaps[newGaps.length - 1][1] == length;
+
+    if (firstSeatFree && isLastSeatFree) {
       const lastGap = newGaps.pop();
       const firstGap = newGaps.shift();
       newGaps.push([lastGap[0], lastGap[1] + firstGap[1]]);
     }
 
-    this.gaps = newGaps;
+    gaps.value = newGaps;
   };
 
-  getFirstIndexOfShortestFittingGap = (length) => {
-    return 1;
+  return {
+    length,
+    seats,
+    gaps,
+    gapsCount,
+    isCompletelyOccupied,
+    isCompletelyFree,
+    addAt,
+    removeAt,
+    updateGaps,
   };
 }
