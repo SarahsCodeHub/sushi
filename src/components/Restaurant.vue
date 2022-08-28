@@ -6,18 +6,20 @@
     <div style="display: flex">
       <div style="width: 30%">
         <h2>Status</h2>
-        <div v-if="sushiTable.isCompletelyFree">
-          Das Restaurant ist völlig leer.
-        </div>
+        <div v-if="sushiTable.isCompletelyFree">Der Tisch ist völlig leer.</div>
         <div v-else-if="sushiTable.isCompletelyOccupied">
-          Das Restaurant ist komplett besetzt.
+          Der Tisch ist komplett besetzt.
         </div>
         <div v-else>
           Es gibt noch freie Plätze
           <ul>
             <li v-for="gap in sushiTable.gaps">
               Platz {{ gap[0] + 1 }} bis einschließlich Platz
-              {{ (gap[0] + gap[1]) % sushiTable.length }}
+              {{
+                gap[0] + gap[1] === sushiTable.length
+                  ? sushiTable.length
+                  : sushiTable.length % sushiTable.length
+              }}
             </li>
           </ul>
         </div>
@@ -27,24 +29,13 @@
           Verteilung der <span>{{ 10 }} Sitzplätze</span>
         </h2>
         <div>
-          <div
-            v-for="seat in sushiTable.seats"
-            :style="{ color: '#' + seat || 'grey' }"
-          >
+          <div v-for="seat in sushiTable.seats" :style="{ color: '#' + seat }">
             &#9641;
             {{ seat }}
           </div>
         </div>
       </div>
       <div style="width: 40%">
-        <div>{{ sushiTable.seats.length }}</div>
-        <button @click="sushiTable.add()">count plus 1</button>
-        <button @click="sushiTable.addAt(3, '#hfhfhf')">
-          An Stelle 3 "sayhi" einfügen
-        </button>
-        <button @click="removeGroup('#hfhfhf')">
-          An Stelle 3 "sayhi" entfernen
-        </button>
         <div>
           <h2>Eingabe Gäste</h2>
           <label for="group-length">Anzahl der Gäste</label>
