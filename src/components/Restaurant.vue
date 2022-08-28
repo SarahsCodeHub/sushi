@@ -34,7 +34,7 @@
             :style="{ color: seat || '#000' }"
           >
             &#9641;
-            {{ seat }}
+            {{ seat ? "besetzt" : "frei" }}
           </div>
         </div>
       </div>
