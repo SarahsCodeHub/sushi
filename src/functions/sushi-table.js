@@ -5,18 +5,18 @@ export default function (seatsInTotal) {
   for (let i = 0; i < length; i++) {
     seats.value.push(false);
   }
-  seats.value = [
-    false,
-    "00ff00",
-    "00ff00",
-    "00ff00",
-    false,
-    false,
-    "0000ff",
-    "0000ff",
-    "ff00ff",
-    false,
-  ];
+  // seats.value = [
+  //   false,
+  //   "00ff00",
+  //   "00ff00",
+  //   "00ff00",
+  //   false,
+  //   false,
+  //   "0000ff",
+  //   "0000ff",
+  //   "ff00ff",
+  //   false,
+  // ];
   const gapsCount = ref(0);
 
   const presentGroups = computed(() => {
@@ -44,6 +44,28 @@ export default function (seatsInTotal) {
   const removeAt = (index) => {
     const _seats = [...seats.value];
     _seats[index] = false;
+    seats.value = _seats;
+  };
+
+  const addNewGroup = (length, firstSeat) => {
+    const _seats = [...seats.value];
+    const groupColorHash = (Math.random().toString(16) + "000000").substring(
+      2,
+      8
+    );
+    for (let i = 0; i < length; i++) {
+      _seats[firstSeat + i] = groupColorHash;
+    }
+    seats.value = _seats;
+  };
+
+  const removeGroup = (hash) => {
+    console.log("removegrouü");
+    const _seats = [...seats.value];
+
+    for (let i = 0; i < length; i++) {
+      _seats[i] = seats[i] === hash ? false : seats[i];
+    }
     seats.value = _seats;
   };
 
@@ -95,5 +117,7 @@ export default function (seatsInTotal) {
     addAt,
     removeAt,
     presentGroups,
+    addNewGroup,
+    removeGroup,
   };
 }

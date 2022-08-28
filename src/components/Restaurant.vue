@@ -55,7 +55,7 @@
             v-model="groupLength"
           />
           <button
-            @click="addNewGroup(groupLength, 0)"
+            @click="sushiTable.addNewGroup(groupLength, 0)"
             :disabled="groupLength <= 0"
           >
             kommt herein
@@ -66,7 +66,7 @@
           <button
             v-for="groupColorHash in sushiTable.presentGroups"
             :key="groupColorHash"
-            @click="removeGroup(groupColorHash)"
+            @click="sushiTable.removeGroup(groupColorHash)"
             class="button"
             :style="{ backgroundColor: '#' + groupColorHash }"
           >
@@ -102,22 +102,7 @@ export default {
       return this.$route.params.seatsInTotal;
     },
   },
-  methods: {
-    addNewGroup(length, firstSeat) {
-      const groupColorHash = (Math.random().toString(16) + "000000").substring(
-        2,
-        8
-      );
-      for (let i = 0; i < length; i++) {
-        this.sushiTable.addAt(firstSeat + i, groupColorHash);
-      }
-    },
-    removeGroup(hash) {
-      for (let i = 0; i < this.sushiTable.length; i++) {
-        this.sushiTable.seats[i] === hash ? this.sushiTable.removeAt(i) : null;
-      }
-    },
-  },
+  methods: {},
   mounted() {},
 };
 </script>
