@@ -60,12 +60,13 @@ export default function (seatsInTotal) {
   };
 
   const removeGroup = (hash) => {
-    console.log("removegrouü");
-    const _seats = [...seats.value];
-
-    for (let i = 0; i < length; i++) {
-      _seats[i] = seats[i] === hash ? false : seats[i];
-    }
+    const _seats = seats.value.map((value) => {
+      if (value === hash) {
+        return false;
+      } else {
+        return value;
+      }
+    });
     seats.value = _seats;
   };
 
