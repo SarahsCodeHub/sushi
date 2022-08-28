@@ -2,9 +2,8 @@ import { ref, reactive, computed } from "vue";
 export default function (seatsInTotal) {
   const length = seatsInTotal;
   const seats = ref([]);
-  const occupiedSeats = ref(0);
   for (let i = 0; i < length; i++) {
-    seats.value.push("red");
+    seats.value.push(false);
   }
   const gaps = ref([]);
   const gapsCount = ref(0);
@@ -15,27 +14,25 @@ export default function (seatsInTotal) {
     seats.value = _seats;
   };
 
-  const isCompletelyOccupied = () => {
-    return occupiedSeats.value === length;
-  };
+  const isCompletelyOccupied = computed(() => {
+    return seats.value.filter((value) => !!value).length === length;
+  });
 
-  const isCompletelyFree = () => {
-    return occupiedSeats.value === 0;
-  };
+  const isCompletelyFree = computed(() => {
+    return seats.value.filter((value) => !!value).length === 0;
+  });
 
   const occupiedAt = (index) => {
     return !!seats.value[index];
   };
 
   const addAt = (index, value) => {
-    occupiedSeats.value++;
     const _seats = [...seats.value];
     _seats[index] = value;
     seats.value = _seats;
   };
 
   const removeAt = (index) => {
-    occupiedSeats.value--;
     const _seats = [...seats.value];
     _seats[index] = false;
     seats.value = _seats;
@@ -65,14 +62,17 @@ export default function (seatsInTotal) {
     });
     gapsCount.value = newGaps.length;
 
-    const firstSeatFree = newGaps[0][0] == 0;
-    const isLastSeatFree =
-      newGaps[newGaps.length - 1][0] + newGaps[newGaps.length - 1][1] == length;
+    if (newGaps.length >= 2) {
+      const firstSeatFree = newGaps[0][0] == 0;
+      const isLastSeatFree =
+        newGaps[newGaps.length - 1][0] + newGaps[newGaps.length - 1][1] ==
+        length;
 
-    if (firstSeatFree && isLastSeatFree) {
-      const lastGap = newGaps.pop();
-      const firstGap = newGaps.shift();
-      newGaps.push([lastGap[0], lastGap[1] + firstGap[1]]);
+      if (firstSeatFree && isLastSeatFree) {
+        const lastGap = newGaps.pop();
+        const firstGap = newGaps.shift();
+        newGaps.push([lastGap[0], lastGap[1] + firstGap[1]]);
+      }
     }
 
     gaps.value = newGaps;
