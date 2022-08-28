@@ -5,6 +5,23 @@
     </h1>
     <div style="display: flex">
       <div style="width: 30%">
+        <div>
+          <h2>Der Sushi-Meister</h2>
+          <img
+            v-if="sushiMasterIsAngry"
+            src="../assets/angry-sushi-master.svg"
+            class=""
+            style="padding: 20px 70px 40px"
+            alt="Der Sushi-Meister ist glücklich"
+          />
+          <img
+            v-else
+            src="../assets/happy-sushi-master.svg"
+            class=""
+            style="padding: 20px 70px 40px"
+            alt="Der Sushi-Meister ist glücklich"
+          />
+        </div>
         <h2>Status</h2>
         <div v-if="sushiTable.isCompletelyFree">Der Tisch ist völlig leer.</div>
         <div v-else-if="sushiTable.isCompletelyOccupied">
@@ -83,12 +100,10 @@ export default {
       seatContribution: {},
       gaps: [],
       groupLength: null,
+      sushiMasterIsAngry: false,
     };
   },
   computed: {
-    totalGroupsCount() {
-      return Object.keys(this.seatContribution).length;
-    },
     name() {
       return this.$route.params.name;
     },
