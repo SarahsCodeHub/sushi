@@ -60,9 +60,6 @@ export default {
     },
   },
   methods: {
-    gapsCount() {
-      return this.gaps.length;
-    },
     addNewGroup(length, firstSeat) {
       const groupColorHash = (Math.random().toString(16) + "000000").substring(
         2,
@@ -71,13 +68,14 @@ export default {
       for (let i = 0; i < length; i++) {
         this.sushiTable.addAt(firstSeat + i, groupColorHash);
       }
+      this.sushiTable.updateGaps();
       this.presentGroups.push(groupColorHash);
     },
     removeGroup(hash) {
-      console.log(hash);
       for (let i = 0; i < this.sushiTable.length; i++) {
         this.sushiTable.seats[i] === hash ? this.sushiTable.removeAt(i) : null;
       }
+      this.sushiTable.updateGaps();
       this.presentGroups.filter((groupHash) => groupHash !== hash);
     },
   },
