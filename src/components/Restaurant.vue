@@ -64,7 +64,9 @@
             v-model="groupLength"
           />
           <button
-            @click="findPlaceForIncomingGroup(groupLength)"
+            @click="
+              findPlaceForIncomingGroupAndUpdateSushiMastersMood(groupLength)
+            "
             :disabled="groupLength <= 0"
           >
             kommt herein
@@ -110,15 +112,17 @@ export default {
     },
   },
   methods: {
-    findPlaceForIncomingGroup(groupLength) {
-      if (this.sushiTable.isCompletelyOccupied) {
+    findPlaceForIncomingGroupAndUpdateSushiMastersMood(groupLength) {
+      if (groupLength > this.sushiTable.seatsLength) {
         this.sushiMasterIsAngry = true;
-        return false;
+      } else if (this.sushiTable.isCompletelyOccupied) {
+        this.sushiMasterIsAngry = true;
       } else if (this.sushiTable.isCompletelyFree) {
         this.sushiMasterIsAngry = false;
         this.sushiTable.addNewGroup(groupLength, 0);
       } else {
-        this.sushiTable.findGapAndPlaceGroup(groupLength);
+        const success = this.sushiTable.findGapAndPlaceGroup(groupLength);
+        this.sushiMasterIsAngry = !success;
       }
     },
   },
