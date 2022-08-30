@@ -1,8 +1,6 @@
 <template>
   <div>
-    <h1 style="margin-bottom: 40px">
-      Willkommen im Restaurant &ldquo;{{ name }}&rdquo;
-    </h1>
+    <h1 style="">Willkommen im Restaurant &ldquo;{{ name }}&rdquo;</h1>
     <div style="display: flex">
       <div style="width: 30%">
         <h2>Der Sushi-Meister</h2>
@@ -55,7 +53,8 @@
       </div>
       <div style="width: 40%">
         <div>
-          <h2>Eingabe Gäste</h2>
+          <h2>Steuerung der Gäste</h2>
+          <h4>Gruppe betritt das Restaurant</h4>
           <label for="group-length">Anzahl der Gäste</label>
           <input
             type="number"
@@ -68,17 +67,18 @@
               findPlaceForIncomingGroupAndUpdateSushiMastersMood(groupLength)
             "
             :disabled="groupLength <= 0"
+            class="button"
           >
             kommt herein
           </button>
         </div>
         <div>
-          <h2>Eingabe Gäste</h2>
+          <h4>Gruppe verlässt das Restaurant</h4>
           <button
             v-for="groupColorHash in sushiTable.presentGroups"
             :key="groupColorHash"
             @click="sushiTable.removeGroup(groupColorHash)"
-            class="button"
+            class="button button--group"
             :style="{ backgroundColor: groupColorHash }"
           >
             Gruppe {{ groupColorHash }} geht
@@ -90,7 +90,7 @@
 </template>
 
 <script>
-import useSushiTable from "../functions/sushi-table";
+import useSushiTable from "../composables/sushi-table";
 
 export default {
   props: {},
@@ -130,13 +130,11 @@ export default {
 };
 </script>
 
-<style>
-.button {
-  padding: 7px 10px 8px;
-  margin: 6px 10px;
+<style scoped>
+.button--group {
   color: white;
   border: none;
-  border-radius: 2px;
+  border-radius: 3px;
   cursor: pointer;
 }
 </style>
