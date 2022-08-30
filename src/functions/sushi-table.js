@@ -5,18 +5,7 @@ export default function (seatsInTotal) {
   for (let i = 0; i < length; i++) {
     seats.value.push(false);
   }
-  // seats.value = [
-  //   false,
-  //   "00ff00",
-  //   "00ff00",
-  //   "00ff00",
-  //   false,
-  //   false,
-  //   "0000ff",
-  //   "0000ff",
-  //   "ff00ff",
-  //   false,
-  // ];
+
   const gapsCount = ref(0);
 
   const presentGroups = computed(() => {
@@ -33,18 +22,6 @@ export default function (seatsInTotal) {
 
   const occupiedAt = (index) => {
     return !!seats.value[index];
-  };
-
-  const addAt = (index, value) => {
-    const _seats = [...seats.value];
-    _seats[index] = value;
-    seats.value = _seats;
-  };
-
-  const removeAt = (index) => {
-    const _seats = [...seats.value];
-    _seats[index] = false;
-    seats.value = _seats;
   };
 
   const addNewGroup = (length, firstSeat) => {
@@ -113,8 +90,6 @@ export default function (seatsInTotal) {
     gapsCount,
     isCompletelyOccupied,
     isCompletelyFree,
-    addAt,
-    removeAt,
     presentGroups,
     addNewGroup,
     removeGroup,
