@@ -26,13 +26,15 @@
         <div v-else>
           Es gibt noch freie Plätze
           <ul>
-            <li v-for="gap in sushiTable.gaps">
-              Platz {{ gap[0] + 1 }} bis einschließlich Platz
-              {{
-                gap[0] + gap[1] === sushiTable.length
-                  ? sushiTable.length
-                  : sushiTable.length % sushiTable.length
-              }}
+            <li v-for="gap in sushiTable.gaps" style="text-align: left">
+              Platz {{ gap[0] + 1 }}
+              <span v-if="gap[1] >= 2">
+                bis einschließlich Platz&nbsp;{{
+                  gap[0] + gap[1] == sushiTable.seatsLength
+                    ? sushiTable.seatsLength
+                    : (gap[0] + gap[1]) % sushiTable.seatsLength
+                }}
+              </span>
             </li>
           </ul>
         </div>
@@ -62,7 +64,7 @@
             v-model="groupLength"
           />
           <button
-            @click="sushiTable.addNewGroup(groupLength, 0)"
+            @click="findPlaceForIncomingGroup(groupLength)"
             :disabled="groupLength <= 0"
           >
             kommt herein
@@ -107,7 +109,19 @@ export default {
       return this.$route.params.seatsInTotal;
     },
   },
-  methods: {},
+  methods: {
+    findPlaceForIncomingGroup(groupLength) {
+      if (this.sushiTable.isCompletelyOccupied) {
+        this.sushiMasterIsAngry = true;
+        return false;
+      } else if (this.sushiTable.isCompletelyFree) {
+        this.sushiMasterIsAngry = false;
+        this.sushiTable.addNewGroup(groupLength, 0);
+      } else {
+        this.sushiTable.findGapAndPlaceGroup(groupLength);
+      }
+    },
+  },
   mounted() {},
 };
 </script>
