@@ -5,20 +5,16 @@
     </h1>
     <div style="display: flex">
       <div style="width: 30%">
-        <div>
-          <h2>Der Sushi-Meister</h2>
+        <h2>Der Sushi-Meister</h2>
+        <div style="min-height: 130px; padding: 20px 70px 20px">
           <img
             v-if="sushiMasterIsAngry"
             src="../assets/angry-sushi-master.svg"
-            class=""
-            style="padding: 20px 70px 40px"
             alt="Der Sushi-Meister ist glücklich"
           />
           <img
             v-else
             src="../assets/happy-sushi-master.svg"
-            class=""
-            style="padding: 20px 70px 40px"
             alt="Der Sushi-Meister ist glücklich"
           />
         </div>
