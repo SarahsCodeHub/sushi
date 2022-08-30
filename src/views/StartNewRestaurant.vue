@@ -19,7 +19,7 @@
         v-model="restaurantConfig.seatsInTotal"
         type="number"
         name="seatsInTotal"
-        id="seatsInTotal"
+        id="seats-in-total"
       />
     </div>
 

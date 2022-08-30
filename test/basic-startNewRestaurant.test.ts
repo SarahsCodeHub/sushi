@@ -8,7 +8,7 @@ describe("StartNewRestaurant", () => {
 
     const wrapper = mount(StartNewRestaurant);
     const inputName = wrapper.find("#name");
-    const inputAmountOfSeats = wrapper.find("#amountOfSeats");
+    const inputAmountOfSeats = wrapper.find("#seats-in-total");
 
     expect(inputName.element.value).toBe("Sushi Bar F+P");
     expect(inputAmountOfSeats.element.value).toBe("10");
@@ -17,7 +17,7 @@ describe("StartNewRestaurant", () => {
   test("StartNewRestaurant values change correct on input", () => {
     const wrapper = mount(StartNewRestaurant);
     const inputName = wrapper.find("#name");
-    const inputAmountOfSeats = wrapper.find("#amountOfSeats");
+    const inputAmountOfSeats = wrapper.find("#seats-in-total");
 
     inputName.setValue("Sushi Bar Vitest");
     inputAmountOfSeats.setValue("30");

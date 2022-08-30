@@ -1,8 +1,7 @@
 import { expect, test } from "vitest";
-import { Seat, SushiTable } from "../src/functions/sushi-table";
+import useSushiTable from "../src/composables/sushi-table";
 
 test("Sushi Table", () => {
-  const testTable = new SushiTable(10);
-  console.log(testTable.size());
-  expect(testTable.length).toBe(10);
+  const testTable = useSushiTable(10);
+  expect(testTable.seatsLength).toBe(10);
 });
