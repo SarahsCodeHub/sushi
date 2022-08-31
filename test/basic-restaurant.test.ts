@@ -135,16 +135,32 @@ describe("Restaurant", () => {
     wrapper.vm.sushiTable.addNewGroup(4, 0);
     wrapper.vm.sushiTable.addNewGroup(4, 6);
     wrapper.vm.findPlaceForIncomingGroupAndUpdateSushiMastersMood(4);
-    console.log(wrapper.sushiMasterIsAngry);
-    // expect(wrapper.sushiMasterIsAngry).toBeTruthy();
+
+    expect(wrapper.vm.sushiMasterIsAngry).toBeTruthy();
   });
 
-  // test("When a group leaves, their seats are available in a row again", () => {
-  //   const wrapper = mount(Restaurant, {
-  //     propsData: {
-  //       seatsInTotal: 20,
-  //       name: "Sushi Bar Vitest",
-  //     },
-  //   });
-  // });
+  test("When a group leaves, their seats are available in a row again", () => {
+    const wrapper = mount(Restaurant, {
+      global: {
+        mocks: {
+          $route: mockRoute,
+          $router: mockRouter,
+        },
+      },
+    });
+
+    wrapper.vm.sushiTable.addNewGroup(4, 0);
+    wrapper.vm.sushiTable.addNewGroup(6, 4);
+
+    expect(wrapper.vm.sushiTable.isCompletelyOccupied).toBeTruthy();
+
+    const hashOfFirstGroup = [...wrapper.vm.sushiTable.presentGroups][0];
+    wrapper.vm.sushiTable.removeGroup(hashOfFirstGroup);
+
+    const expectedGapAsString = JSON.stringify([0, 4]);
+
+    expect(
+      JSON.stringify(wrapper.vm.sushiTable.gaps).includes(expectedGapAsString)
+    ).toBeTruthy();
+  });
 });
