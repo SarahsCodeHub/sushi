@@ -53,4 +53,10 @@ export default {
   },
 };
 </script>
-<style></style>
+<style scoped>
+.button {
+  margin-top: 20px;
+  display: inline-block;
+  text-decoration: none;
+}
+</style>

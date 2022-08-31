@@ -27,6 +27,20 @@ h1 {
   line-height: 1.1;
 }
 
+input {
+  border-radius: 3px;
+  border: 1px solid #213547;
+  margin: 6px 10px;
+  padding: 7px 10px 8px;
+  font-size: 1em;
+}
+
+label {
+  color: #213547;
+  font-weight: 600;
+  font-size: 1em;
+}
+
 .button {
   color: #213547;
   border-radius: 3px;
