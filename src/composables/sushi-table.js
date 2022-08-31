@@ -52,15 +52,15 @@ export default function (seatsInTotal) {
 
   const findGapAndPlaceGroup = (groupLength) => {
     let placedGroup = false;
-    let currentGap = null;
+    let currentGap = [];
     let possibleGaps = gaps.value.filter((gap) => gap[1] >= groupLength);
-    currentGap = possibleGaps ? possibleGaps[0] : null;
+    currentGap = possibleGaps.length > 0 ? possibleGaps[0] : [];
 
     possibleGaps.forEach((gap) => {
       gap[1] <= currentGap[1] ? (currentGap = gap) : null;
     });
 
-    if (!!currentGap) {
+    if (currentGap.length > 0) {
       addNewGroup(groupLength, currentGap[0]);
       placedGroup = true;
     }

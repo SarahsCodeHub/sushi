@@ -96,7 +96,7 @@ export default {
   props: {},
   data() {
     return {
-      sushiTable: useSushiTable(10),
+      sushiTable: useSushiTable(this.$route.params.seatsInTotal),
       seatContribution: {},
       gaps: [],
       groupLength: null,
