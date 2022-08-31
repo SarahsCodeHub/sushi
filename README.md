@@ -1,9 +1,27 @@
-## Vue 3 + Vite
+# Testaufgabe Sushi-Restaurant
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## Autorin
+Sarah Michaelsen
+sarah.michaelsen@yahoo.com
 
-### Recommended IDE Setup
+## :sparkles: Projekt anschalten und benutzen :sparkles:
+`nvm use` <br />
+`yarn add` <br />
+`yarn run dev` <br />
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+... und los gehts unter http://localhost:5173/
 
-## Vitest
+## Projekt testen :monocle_face:
+`yarn test`
+
+## Projekthistorie :scroll:
+`git log` :)
+
+## Womit ist es gebaut :wrench:
+- Vue 3 + Vite
+- Vitest
+
+## (Theoretische) Annahmen
+- die Größe der Gruppe ist gleichverteilt, d.h. eine Gruppe mit bspw. 1 Menschen ist genauso wahrscheinlich wie eine Gruppe mit bspw. 4 Menschen
+- colorHash ist natürlich nciht unique, aber für diesen UseCase reicht es zunächst. es wäre keine zwar ein Bug, aber ich erwarte nicht so oft oder so schnell eine Dopplung
+- Annahme: es ist optimal, die Leute in die kleinste passende Lücke zu setzen.... Aber bewiesen habe ichs hiermit nicht :woman_shrugging:
